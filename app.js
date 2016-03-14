@@ -1,18 +1,32 @@
 console.log("Javascript is alive!");
 
-var li=document.getElementsByTagName('li');
+var panic = document.getElementById("reset");
+var lis=document.getElementsByTagName('li');
 var myImg=document.createElement("img");
-
+var images = ["./images/milk.jpeg", "./images/honey.jpeg", "./images/water.jpeg", "./images/wine.jpeg", "./images/beer.jpeg"];
+var orangeDub = document.getElementById("resize");
+var origWidth = 200;
+var grayGone = document.getElementById("ghosting");
+var j;
 
 // 1. Change the greeting from "Hello, There!" to "Hello, World!".
 
-document.getElementById('greeting').innerText = "Hello World!";
-
+document.getElementById('greeting').innerText = "Hello, World!";
 
 // 2. Set the background color of each <li> to yellow.
 
-for (i=0 ; i<li.length ; i++) {
-    li[i].style.backgroundColor = "yellow"; 
+  for (var i = lis.length - 1; i >= 0; i--) {
+    lis[i].style.backgroundColor = "yellow";
+    lis[i].className="";
+    lis[i].addEventListener("click", selectLi);
+  }
+
+function selectLi(){
+    var curSelected = document.querySelector(".selected");
+    if (curSelected) { curSelected.className = ""; }
+    this.className = "selected";
+    document.querySelectorAll("img")[1].src = "./images/" + this.innerHTML + ".jpeg";
+
 }
 
 
@@ -25,47 +39,7 @@ document.getElementById('greeting').appendChild(myImg);
 // 1. Add the class of selected to an <li> when it is clicked. 
 // Remove it from any other lis as well.
 
-    li[0].addEventListener("click", function(){
-      unselect();
-      li[0].className = "selected";
-      myImg.setAttribute('src', 'images/milk.jpeg');
-      document.getElementById('greeting').appendChild(myImg);
-
-    });
-
-    li[1].addEventListener("click", function(){
-      unselect();
-      li[1].className = "selected";
-      myImg.setAttribute('src', 'images/honey.jpeg');
-      document.getElementById('greeting').appendChild(myImg);
-    });
-
-    li[2].addEventListener("click", function(){
-      unselect();
-      li[2].className = "selected";
-      myImg.setAttribute('src', 'images/water.jpeg');
-      document.getElementById('greeting').appendChild(myImg);
-    });
-
-    li[3].addEventListener("click", function(){
-      unselect();
-      li[3].className = "selected";  
-      myImg.setAttribute('src', 'images/wine.jpeg');
-      document.getElementById('greeting').appendChild(myImg);
-    });
-
-    li[4].addEventListener("click", function(){
-      unselect();
-      li[4].className = "selected";
-      myImg.setAttribute('src', 'images/beer.jpeg');
-      document.getElementById('greeting').appendChild(myImg);
-    });
-
-    function unselect(){
-      for (i=0 ; i<li.length ; i++) {
-            li[i].className = "";  
-      }
-    }
+   
 
 // 2. Change the image to be the most recently clicked food item.
 // ***See above
@@ -73,16 +47,12 @@ document.getElementById('greeting').appendChild(myImg);
 
 // 3. When the gray div is moused over, it's removed from the DOM.
 
-var grayGone = document.getElementById("ghosting");
-grayGone.addEventListener("click", function(){
-    grayGone.outerHTML = "";
+grayGone.addEventListener("mouseover", function(){ 
+  this.remove();
 });
-
 
 // 4. When the orange div is moused over, its width doubles. When the mouse moves out of the div, it returns to its original size.
 
-var orangeDub = document.getElementById("resize");
-var origWidth = 200;
 
 orangeDub.addEventListener("mouseover", function(){
   orangeDub.style.width=(origWidth*2)+"px";
@@ -96,19 +66,18 @@ orangeDub.addEventListener("mouseout", function(){
 // 5. When the reset button is clicked - remove the selected class from each <li> 
 // and change the image to panic.jpeg.
 
-var panic = document.getElementById("reset");
 
 panic.addEventListener("click", function(){
-  unselect();
-  myImg.setAttribute('src', 'images/panic.jpeg');
-  document.getElementById('greeting').appendChild(myImg);
+  var curSelected = document.querySelector(".selected");
+  if (curSelected) { curSelected.className = ""; }
+   document.querySelectorAll("img")[1].setAttribute("src","./images/panic.jpeg");
 });
 
 // 6. When the 1, 2, 3, 4, 5, 6, 7, 8, 9, or 0 key is pressed, 
 // the page alerts the message ""
 
-window.addEventListener('keydown', function(e) {
-    if ( e.keyCode >= 48 && e.keyCode <=57 ) {
+window.addEventListener('keydown', function(event) {
+    if ( event.keyCode >= 48 && event.keyCode <=57 ) {
     alert("I HATE NUMBERZZZ!");
     }
 });
